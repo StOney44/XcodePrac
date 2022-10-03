@@ -32,8 +32,7 @@ class ViewController: UIViewController {
             self.isUpdateText.text = "갱신하지 않음"
         }
     }
-    
-
+        
     @IBAction func onStepper(_ sender: UIStepper) {
         let value = Int(sender.value)
         self.intervalText.text = "\(value)분 마다"
@@ -75,6 +74,32 @@ class ViewController: UIViewController {
         
         // 값을 전달하는 과정을 여기에 작성
         
+        rvc.paramEmail = self.email.text!
+        rvc.paramUpdate = self.isUpdate.isOn
+        rvc.paramInterval = self.interval.value
+        
+        
+        // 화면 이동
+        // self.present(rvc, animated: true)
+        self.navigationController?.pushViewController(rvc, animated: true)
+        
+    }
+    
+    @IBAction func onPerformSegue(_ sender: Any) {
+        self.performSegue(withIdentifier: "ManualSubmit", sender: self)
+    }
+
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // 목적지 뷰 컨트롤러 인스턴스 불러오기
+        let dest = segue.destination
+        
+        guard let rvc = dest as? ResultViewController else {
+            return
+        }
+        
+        // 값 전달
         rvc.paramEmail = self.email.text!
         rvc.paramUpdate = self.isUpdate.isOn
         rvc.paramInterval = self.interval.value
